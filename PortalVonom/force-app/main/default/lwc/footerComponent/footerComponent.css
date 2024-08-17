@@ -1,0 +1,20 @@
+.footer {
+    background-color: #213158; /* Dark blue background */
+    padding: 20px;
+    text-align: center;
+    color: white; /* White text */
+}
+
+.footer .logo {
+    width: 150px; /* Adjust size as needed */
+	height: 38px;
+    margin-bottom: 10px;
+}
+
+.footer .footer-content {
+    margin-top: 10px;
+}
+
+.footer .footer-content p {
+    margin: 5px 0;
+}

@@ -1,0 +1,19 @@
+<template>
+    <!-- <div class="c-container flex-container"> -->
+        <lightning-layout multiple-rows class="flex-item-75 left-div">
+            <lightning-layout-item size="12" flexibility="auto, no-grow">
+                <img class="slds-image center logo-mobile" width="196" height="80"
+                    src="/portal/s/sfsites/c/resource/HydeResource/ASSET/image/hydeLogo2x.png" 
+                />
+            </lightning-layout-item>
+            <lightning-layout-item size="12" class="Welcome" flexibility="auto">
+                Welcome to Vonom!
+            </lightning-layout-item>
+            <template lwc:if={isDesktopOrTablet}>
+                <lightning-layout-item size="12" class="Para-1" flexibility="auto">
+                    {loginText}
+                </lightning-layout-item>
+            </template>
+        </lightning-layout>
+    <!-- </div> -->
+  </template>

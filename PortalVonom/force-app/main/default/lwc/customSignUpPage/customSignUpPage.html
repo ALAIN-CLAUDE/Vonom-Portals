@@ -1,0 +1,71 @@
+<template>
+    <template if:true={showTermsAndConditionsLoading}>
+        <lightning-spinner class="termsAndConditionsLoading" alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+
+    <c-custom-toast auto-close-time="8000"></c-custom-toast>
+
+    <div class="container slds-theme_default">
+        <div class="form-container">
+            <img src={logo} alt="Logo" class="logo" style="width: 30%;">
+            <div style="margin-top: 4rem;">
+                <h2 class="slds-text-align_left">Get Started Now</h2>
+
+                <div class="input-container">
+                    <label for="firstName" style="margin-top: 1rem;">First Name</label>
+                    <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" class="inputClass"
+                        value={firstName} onchange={handleChange} style={errorBorderFirstName} required />
+
+                    <label for="lastName" style="margin-top: 1rem;">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" class="inputClass"
+                        value={lastName} onchange={handleChange} style={errorBorderLastName} required />
+
+                    <label for="email" style="margin-top: 1rem;">Email address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" class="inputClass"
+                        value={email} onchange={handleChange} pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" 
+                        oninvalid={onEmailInvalid} oninput={onEmailInput} onclick={onEmailClick} onblur={onEmailBlur}
+                        style={errorBorderEmail} required />
+
+                    <label for="organization" style="margin-top: 1rem;">Organization</label>
+                    <input type="text" id="organization" name="organization" placeholder="Enter your organization" class="inputClass"
+                        value={organization} onchange={handleChange} style={errorBorderOrganization} />
+
+                    <label for="role" style="margin-top: 1rem; margin-bottom: 5px;">Role</label>
+                    <lightning-combobox
+                        id="role"
+                        name="role"
+                        class="comboxStyle"
+                        variant="label-hidden"
+                        value={rolevalue}
+                        options={options}
+                        onchange={handleChange}>
+                    </lightning-combobox>
+
+                    <template if:true={isAuthor}>
+                        <label for="abstractTitle" style="margin-top: 1rem;">Abstract Title</label>
+                        <input type="text" id="abstractTitle" name="abstract" placeholder="Enter your abstract title" class="inputClass"
+                            value={abstract} onchange={handleChange} style={errorBorderAbstract} />
+                    </template>
+
+                    <div class="password-container" >
+                        <input type="checkbox" id="terms" name="terms" checked={terms} onchange={handleTermsAndConditionsChange} />
+                        <label for="terms" style="margin-left: 1rem;">I agree to the <a href="#">terms & policy</a></label>
+                    </div>
+                </div>
+
+                <button class="login-btn" onclick={handleRegister} style="margin-top: 2rem;">Create an Account</button>
+
+                <div class="or-divider" style="margin-top: 2rem;">
+                    <span>Or</span>
+                </div>
+
+                <p style="margin-top: 1rem; width:80%;">Have an account? <a href="#" class="signup-link" onclick={navigateToLogin}>Sign In</a></p>
+            </div>
+        </div>
+
+        <div class="image-container" style="margin-top: 2rem;">
+            <c-site-portal-left-banner></c-site-portal-left-banner>
+          
+        </div>
+    </div>
+</template>
