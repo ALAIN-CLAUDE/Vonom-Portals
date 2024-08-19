@@ -2,7 +2,6 @@
 .container {
     display: flex;
     justify-content: space-between;
-    padding: 2rem 0 2rem 2rem;
     font-family: Arial, sans-serif;
 }
 

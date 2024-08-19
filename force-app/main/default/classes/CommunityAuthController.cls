@@ -166,4 +166,62 @@ public without sharing class CommunityAuthController {
             throw new AuraHandledException(e.getMessage());
         }
     }
+
+      /*
+    *Method Name 	 : resetPasswordLink
+    *Desc			 : Send reset password link to user.
+    *Return type	 : String
+    *Parameter		 : Email
+    */
+    @AuraEnabled
+    public static String resetPasswordLink(String inputemail) {
+        System.debug('inputemail------------------> '+inputemail);
+        
+        String processMsg = '';
+        String userID;
+        String userName;
+        String listSize;
+        List<UserLogin> loginHistoryDetailList = new List<UserLogin>();
+        try {
+            Boolean Valid = false;
+            
+            if (!String.isBlank(inputemail)) {
+                inputemail = String.escapeSingleQuotes(inputemail);
+                if (Site.isValidUsername(inputemail)) {
+                    List<User> userToResetPassword = [Select ID ,Email,Username
+                                                      FROM USER
+                                                      WHERE Email =: inputemail];
+           System.debug('userToResetPassword----------------------------------> '+userToResetPassword);
+                    for(User usr : userToResetPassword) {
+                        userID = usr.ID;
+                        userName = usr.Username;
+                    }
+                    loginHistoryDetailList = [SELECT IsPasswordLocked FROM UserLogin WHERE UserId =: userID LIMIT 1];
+                    if(loginHistoryDetailList.size()>0) {
+                            if(loginHistoryDetailList[0].IsPasswordLocked) {
+                                processMsg = 'UserLockedOut';
+                                return processMsg;
+                            }
+                        Valid = true;
+                    } else {
+                        Valid = true;
+                    }
+                    
+                    if(Valid == true) {
+                        if(!userToResetPassword.IsEmpty()){
+                            if(Site.forgotPassword(userName)){
+                                processMsg = 'LoginResetSuccess'; 
+                            }
+                        }
+                    }
+                }
+                if(String.isBlank(processMsg)){
+                    processMsg ='invalidUserName';
+                }                               
+            }
+            return processMsg;
+        } catch (exception ex) {
+            throw new AuraHandledException(ex.getMessage());
+        }
+    }
 }

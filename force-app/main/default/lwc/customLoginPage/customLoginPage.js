@@ -23,6 +23,11 @@ export default class CustomLoginPage extends NavigationMixin(LightningElement) {
     meta.setAttribute("name", "viewport");
     meta.setAttribute("content", "width=device-width, initial-scale=1.0");
     document.getElementsByTagName('head')[0].appendChild(meta);
+
+    let currentUrl = window.location.href;
+    console.log('currentUrl------> ',currentUrl);
+    var new_str = currentUrl.split("login")[0];
+    console.log('new_str------> ',new_str);
     }
 
     handleUserNameChange(event){
@@ -81,5 +86,18 @@ export default class CustomLoginPage extends NavigationMixin(LightningElement) {
             }
         });
     }
+
+
+
+    get navigateToForgetPasswordPage(){
+    let currentUrl = window.location.href;
+    console.log('currentUrl------> ',currentUrl);
+    var new_str = currentUrl.split("login")[0];
+    console.log('new_str------> ',new_str);
+    var res = new_str.concat("login/ForgotPassword");
+
+    return res;
+      }
+
 
 }
