@@ -1,7 +1,6 @@
 import { LightningElement, track } from 'lwc';
 import siteResource from '@salesforce/resourceUrl/customSiteImages';
 import { NavigationMixin } from 'lightning/navigation';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import isEmailExist from '@salesforce/apex/CommunityAuthController.isEmailExist';
 import registerUser from '@salesforce/apex/CommunityAuthController.registerUser';
 
@@ -18,6 +17,7 @@ export default class CustomSignUpPage extends NavigationMixin(LightningElement) 
     @track rolevalue = 'Author';
     @track abstract = '';
     @track terms = false;
+    emailError;
 
     @track errorBorderFirstName = '';
     @track errorBorderLastName = '';
@@ -26,7 +26,7 @@ export default class CustomSignUpPage extends NavigationMixin(LightningElement) 
     @track errorBorderAbstract = '';
 
     @track showTermsAndConditionsLoading = false;
-    @track emailError = '';
+    @track successOnRegistered = false;  // Track successful registration
 
     get options() {
         return [
@@ -61,10 +61,6 @@ export default class CustomSignUpPage extends NavigationMixin(LightningElement) 
                 this.organization = value;
                 this.errorBorderOrganization = this.organization ? '' : 'border: 1px solid red;';
                 break;
-            case 'abstract':
-                this.abstract = value;
-                this.errorBorderAbstract = this.isAuthor && !this.abstract ? 'border: 1px solid red;' : '';
-                break;
             case 'terms':
                 this.terms = event.target.checked;
                 break;
@@ -86,22 +82,22 @@ export default class CustomSignUpPage extends NavigationMixin(LightningElement) 
             this.errorBorderFirstName = 'border: 1px solid red;';
             hasError = true;
         }
+        console.log(' 1-----------> ');
         if (!this.lastName) {
             this.errorBorderLastName = 'border: 1px solid red;';
             hasError = true;
         }
+        console.log(' 2-----------> ');
         if (!this.email) {
             this.errorBorderEmail = 'border: 1px solid red;';
             hasError = true;
         }
+        console.log(' 3----------> ');
         if (!this.organization) {
             this.errorBorderOrganization = 'border: 1px solid red;';
             hasError = true;
         }
-        if (this.isAuthor && !this.abstract) {
-            this.errorBorderAbstract = 'border: 1px solid red;';
-            hasError = true;
-        }
+        console.log(' 4-----------> ');
 
         if (hasError) {
             return; // Stop processing if there are errors
@@ -117,7 +113,6 @@ export default class CustomSignUpPage extends NavigationMixin(LightningElement) 
         const emailCheck = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(this.email);
 
         if (!emailCheck) {
-            this.emailError = 'Please enter a valid email address';
             this.errorBorderEmail = 'border: 1px solid red;';
             this.template.querySelector('c-custom-toast').showToast('error', 'Please enter a valid email address');
             this.showTermsAndConditionsLoading = false;
@@ -127,12 +122,13 @@ export default class CustomSignUpPage extends NavigationMixin(LightningElement) 
         try {
             const emailExists = await isEmailExist({ username: this.email });
             if (emailExists) {
-                this.emailError = 'Your email already exists somewhere on the Salesforce Ecosystem.';
+                console.log(' emailExists-----------> ',emailExists);
+                this.template.querySelector('c-custom-toast').showToast('error', 'Your email already is already registered to an existing Account. Please login or contact us.');
                 this.showTermsAndConditionsLoading = false;
-                this.template.querySelector('c-custom-toast').showToast('error', this.emailError);
                 return;
             }
-
+console.log(' this.firstName-----------> ', this.firstName);
+console.log(' this.email-----------> ', this.email);
             await registerUser({
                 firstName: this.firstName,
                 lastName: this.lastName,
@@ -145,8 +141,18 @@ export default class CustomSignUpPage extends NavigationMixin(LightningElement) 
                 abstractval: this.abstract
             });
 
-            this.template.querySelector('c-custom-toast').showToast('success', 'Registered Successfully, Confirmation Email has been sent');
-            this.navigateToLogin();
+            // If registration is successful
+            this.successOnRegistered = true;  // Set flag to show success message
+            this.template.querySelector('c-custom-toast').showToast('success', 'Registered Successfully, Confirmation Email has been sent to set up your password.');
+            
+            // Reset fields
+            this.firstName = '';
+            this.lastName = '';
+            this.email = '';
+            this.organization = '';
+            this.rolevalue = 'Author';
+            this.abstract = '';
+            this.terms = false;
 
         } catch (error) {
             this.template.querySelector('c-custom-toast').showToast('error', error.body.message);
@@ -167,4 +173,5 @@ export default class CustomSignUpPage extends NavigationMixin(LightningElement) 
     handleTermsAndConditionsChange(event) {
         this.terms = event.target.checked;
     }
+
 }

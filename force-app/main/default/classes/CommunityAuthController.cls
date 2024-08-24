@@ -23,6 +23,9 @@ public without sharing class CommunityAuthController {
 	
     @AuraEnabled
     public static string registerUser(String firstName, String lastName, String username, String email, String communityNickname, String password, String organization, String role, String abstractval){
+        system.debug('firstName-------------> '+firstName);
+        system.debug('lastName---------------> '+lastName);
+  
         try {
 
             Set<String> communityNicknameSet = new Set<String>();
@@ -90,8 +93,6 @@ public without sharing class CommunityAuthController {
            
             insert portalAccount;
 
-            //portalAccount.IsPartner = true;
-            //update portalAccount;
 
             accountId = portalAccount.Id;
             //password='asd123$A';
@@ -114,17 +115,12 @@ public without sharing class CommunityAuthController {
                     return page.getUrl();
                 }
             }
-            
-            
-			
+
             throw new CalloutException();
 
         } catch (Exception e) {
             system.debug('e.getMessage+   '+e.getMessage());
              throw new AuraHandledException(e.getMessage());
-            /*if(!Test.isRunningTest()){
-                throw new AuraHandledException(e.getMessage());
-            } */ 
         }
     }
 
@@ -133,7 +129,7 @@ public without sharing class CommunityAuthController {
         try {
             
             List<User> userList = new List<User>();
-            userList = [Select Id, Name From User Where Username = :username];
+            userList = [Select Id, Name,email From User Where email = :username];
 
             return !userList.isEmpty();
 

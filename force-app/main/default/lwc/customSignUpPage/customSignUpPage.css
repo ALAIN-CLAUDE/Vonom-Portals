@@ -4,110 +4,17 @@
     padding: 2rem 0 2rem 2rem;
     font-family: Arial, sans-serif;
 }
-
 .form-container {
-    padding-left: 20px;
     width: 100%;
     max-width: 600px; /* Adjust as needed */
 }
 
-.logo {
-    width: 50px;
-}
-
-/* Heading Styles */
-h2 {
-    font-size: 1.5rem;
-    margin-top: 1rem;
-}
-
-/* Button Styles */
-.buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 1rem;
-}
-
-.signup-btn, .login-btn {
-    margin-top: 2rem;
-    width: 80%;
-    background-color: #183059;
-    border-radius: 5px;
-    padding: 0.5rem 1rem;
-    color: white;
-    cursor: pointer;
-    border: none; /* SLDS buttons are borderless */
-}
-
-/* Password Container */
-.password-container {
-    display: flex;
-    /* justify-content: space-between; */
-    align-items: center;
-    margin-top: 2rem;
-}
-
-/* Input Container */
-.input-container {
-    margin-top: 1rem;
-}
-
-label {
-    display: block;
-}
-
-.inputClass {
-    width: 80%;
-    padding: 10px 0px 10px 10px;
-    margin-top: 0.5rem;
-    border-radius: 10px;
-    border: 3px solid #F5F5F5;
-}
-
-.comboxStyle{
-    border-radius: 10px;
-    border: 3px solid #F5F5F5;
-    width: 80%;
-}
-
-/* Forgot Password and Links */
-.forgot-password {
-    display: block;
-    margin-top: 0.5rem;
-    color: #183059;
-    text-decoration: none;
-    font-weight: bolder;
-}
-
-.signup-link {
-    color: #183059;
-    text-decoration: none;
-} 
-
-/* Image Container */
-.image-container {
+/* Or Divider */
+.or-divider {
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: right;
-}
-
-.security-image {
-    width: 80%;
-}
-
-/* Paragraph */
-p {
     text-align: center;
-}
-
-/* Or Divider */
-.or-divider {
-    width: 80%;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    margin: 2rem 0;
 }
 
 .or-divider::before,
@@ -125,44 +32,15 @@ p {
     margin-left: .25em;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .form-container {
-        width: 100%;
-        max-width: none;
-        padding: 1rem;
-    }
-
-    .image-container {
-        width: 100%;
-    }
+.login-btn {
+    width: 100%;
+    background-color: #183059;
+    border-radius: 5px;
+    padding: 0.2rem 1rem;
+    color: white;
+    cursor: pointer;
+    border: none; /* SLDS buttons are borderless */
 }
-
-/* Hide elements for laptop view */
-.laptop-view {
-    display: none;
-}
-
-/* Hide elements for mobile view */
-.mobile-view {
-    display: none;
-}
-
-/* Show mobile view only on small screens */
-@media (max-width: 767px) {
-    .mobile-view {
-        display: block;
-    }
-}
-
-/* Show laptop view only on medium and larger screens */
-@media (min-width: 768px) {
-    .laptop-view {
-        display: block;
-    }
+.slds-form-element__label {
+    font-weight: bold;
 }

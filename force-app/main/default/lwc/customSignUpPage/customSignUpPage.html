@@ -2,70 +2,68 @@
     <template if:true={showTermsAndConditionsLoading}>
         <lightning-spinner class="termsAndConditionsLoading" alternative-text="Loading" size="medium"></lightning-spinner>
     </template>
-
     <c-custom-toast auto-close-time="8000"></c-custom-toast>
-
-    <div class="container slds-theme_default">
-        <div class="form-container">
-            <img src={logo} alt="Logo" class="logo" style="width: 30%;">
-            <div style="margin-top: 4rem;">
-                <h2 class="slds-text-align_left">Get Started Now</h2>
-
-                <div class="input-container">
-                    <label for="firstName" style="margin-top: 1rem;">First Name</label>
-                    <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" class="inputClass"
-                        value={firstName} onchange={handleChange} style={errorBorderFirstName} required />
-
-                    <label for="lastName" style="margin-top: 1rem;">Last Name</label>
-                    <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" class="inputClass"
-                        value={lastName} onchange={handleChange} style={errorBorderLastName} required />
-
-                    <label for="email" style="margin-top: 1rem;">Email address</label>
-                    <input type="email" id="email" name="email" placeholder="Enter your email" class="inputClass"
-                        value={email} onchange={handleChange} pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" 
-                        oninvalid={onEmailInvalid} oninput={onEmailInput} onclick={onEmailClick} onblur={onEmailBlur}
-                        style={errorBorderEmail} required />
-
-                    <label for="organization" style="margin-top: 1rem;">Organization</label>
-                    <input type="text" id="organization" name="organization" placeholder="Enter your organization" class="inputClass"
-                        value={organization} onchange={handleChange} style={errorBorderOrganization} />
-
-                    <label for="role" style="margin-top: 1rem; margin-bottom: 5px;">Role</label>
-                    <lightning-combobox
-                        id="role"
-                        name="role"
-                        class="comboxStyle"
-                        variant="label-hidden"
-                        value={rolevalue}
-                        options={options}
-                        onchange={handleChange}>
-                    </lightning-combobox>
-
-                    <template if:true={isAuthor}>
-                        <label for="abstractTitle" style="margin-top: 1rem;">Abstract Title</label>
-                        <input type="text" id="abstractTitle" name="abstract" placeholder="Enter your abstract title" class="inputClass"
-                            value={abstract} onchange={handleChange} style={errorBorderAbstract} />
-                    </template>
-
-                    <div class="password-container" >
-                        <input type="checkbox" id="terms" name="terms" checked={terms} onchange={handleTermsAndConditionsChange} />
-                        <label for="terms" style="margin-left: 1rem;">I agree to the <a href="#">terms & policy</a></label>
-                    </div>
-                </div>
-
-                <button class="login-btn" onclick={handleRegister} style="margin-top: 2rem;">Create an Account</button>
-
-                <div class="or-divider" style="margin-top: 2rem;">
-                    <span>Or</span>
-                </div>
-
-                <p style="margin-top: 1rem; width:80%;">Have an account? <a href="#" class="signup-link" onclick={navigateToLogin}>Sign In</a></p>
+    <div class="slds-grid slds-wrap slds-theme_default slds-m-around_large">
+        <div class="form-container  slds-m-horizontal_auto slds-large-size_12-of-12 slds-medium-size_6-of-12 slds-small-size_1-of-1">
+            <div class="slds-p-top_small">
+                <img src={logo} alt="Logo" class="logo" style="width: 30%;">
             </div>
+            <div class="slds-m-around_xx-large">
+                <template if:true={successOnRegistered}>
+                    <h2 class="slds-text-heading_medium slds-m-bottom_medium slds-text-align_center">Registration Successful</h2>
+                    <p class="slds-text-align_center">Please check your email for a link to set up your password.</p>
+                    <div class="slds-text-align_center slds-m-top_medium">
+                        <button class="slds-button slds-button_brand login-btn" onclick={navigateToLogin}>Sign In</button>
+                    </div>
+                </template>
+                
+                <template if:false={successOnRegistered}>
+            <h2 class="slds-text-heading_medium slds-m-bottom_medium slds-text-align_left">Get Started Now</h2>
+            <div class="slds-form-element slds-m-bottom_small">
+                <label for="firstName" class="slds-form-element__label">First Name</label>
+                <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" class="slds-input inputClass"
+                    value={firstName} onchange={handleChange} style={errorBorderFirstName} required />
+            </div>
+            <div class="slds-form-element slds-m-bottom_small">
+                <label for="lastName" class="slds-form-element__label">Last Name</label>
+                <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" class="slds-input inputClass" 
+                    value={lastName} onchange={handleChange} style={errorBorderLastName} required />
+            </div>
+            <div class="slds-form-element slds-m-bottom_small">
+                <label for="email" class="slds-form-element__label">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" class="slds-input inputClass"
+                    value={email} onchange={handleChange} pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" 
+                    oninvalid={onEmailInvalid} oninput={onEmailInput} onclick={onEmailClick} onblur={onEmailBlur}
+                    style={errorBorderEmail} required />
+            </div>
+            <div class="slds-form-element slds-m-bottom_small">
+                <label for="organization" class="slds-form-element__label">Organization</label>
+                <input type="text" id="organization" name="organization" placeholder="Enter your organization" class="slds-input inputClass"
+                    value={organization} onchange={handleChange} style={errorBorderOrganization} />
+            </div>
+            <div class="slds-form-element slds-m-bottom_small">
+                <label for="role" class="slds-form-element__label">Role</label>
+                <lightning-combobox
+                    id="role"
+                    name="role"
+                    class="slds-combobox__input comboxStyle"
+                    variant="label-hidden"
+                    value={rolevalue}
+                    options={options}
+                    onchange={handleChange}>
+                </lightning-combobox>
+            </div>
+            <div class="slds-form-element slds-m-bottom_medium">
+                <input type="checkbox" id="terms" name="terms" checked={terms} onchange={handleTermsAndConditionsChange} />
+                <label for="terms" class="slds-form-element__label" style="margin-left: 1rem;">I agree to the <a href="#">terms & policy</a></label>
+            </div>
+            <button class="slds-button slds-button_brand slds-m-bottom_large login-btn" onclick={handleRegister}>Create an Account</button>
+            <div class="or-divider slds-m-bottom_x-small">
+                <span>Or</span>
+            </div>
+            <p class="slds-text-align_center">Have an account? <a href="#" class="slds-text-link" onclick={navigateToLogin}>Sign In</a></p>
+        </template>
         </div>
-
-        <div class="image-container" style="margin-top: 2rem;">
-    
-          
-        </div>
+    </div>
     </div>
 </template>
