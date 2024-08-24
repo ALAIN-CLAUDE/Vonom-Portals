@@ -1,0 +1,27 @@
+.submit-button {
+    width: 20%;
+    background-color: #9D8B53;
+    border-radius: 5px;
+    padding: 0.4rem 1rem;
+    color: white;
+    cursor: pointer;
+    border: none; /* SLDS buttons are borderless */
+}
+
+.submit-button:hover {
+    background-color:#9D8B53;
+}
+
+.slds-modal__container {
+    width: 50%;
+    max-width: 40rem;
+}
+
+.slds-modal__header {
+    background-color: #9D8B53;
+    color: white;
+}
+
+.slds-backdrop_open {
+    z-index: 9000;
+}
