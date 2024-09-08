@@ -59,10 +59,11 @@ export default class CustomSignUpPage extends NavigationMixin(LightningElement) 
                 break;
             case 'organization':
                 this.organization = value;
-                this.errorBorderOrganization = this.organization ? '' : 'border: 1px solid red;';
+               // this.errorBorderOrganization = this.organization ? '' : 'border: 1px solid red;';
                 break;
             case 'terms':
                 this.terms = event.target.checked;
+                this.errorBorderOrganization = this.terms ? '' : 'border: 1px solid red;';
                 break;
             case 'role':
                 this.rolevalue = value;
@@ -92,12 +93,12 @@ export default class CustomSignUpPage extends NavigationMixin(LightningElement) 
             this.errorBorderEmail = 'border: 1px solid red;';
             hasError = true;
         }
-        console.log(' 3----------> ');
+/*        console.log(' 3----------> ');
         if (!this.organization) {
             this.errorBorderOrganization = 'border: 1px solid red;';
             hasError = true;
         }
-        console.log(' 4-----------> ');
+        console.log(' 4-----------> ');*/
 
         if (hasError) {
             return; // Stop processing if there are errors

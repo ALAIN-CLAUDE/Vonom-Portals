@@ -63,6 +63,7 @@ export default class CustomForgetPasswordPage extends NavigationMixin(LightningE
                     this.toastError = false;
                     this.defaultView = false;
                     this.displayMessage = 'We have sent an email with a link to reset your password. Check your email and deactivate the link before it expires in 24 hours. If this email expires, you will need to start the reset password process again';
+                    this.template.querySelector('c-custom-toast').showToast('success', this.displayMessage);
                 //    this.displayFocus();
                //     this.autoCloseToast();
                 } else if (result === 'invalidUserName') {
@@ -70,7 +71,8 @@ export default class CustomForgetPasswordPage extends NavigationMixin(LightningE
                     this.toastTheme = 'slds-notify slds-notify_toast slds-theme_error';
                     this.toastError = true;
                     this.defaultView = false;
-                    this.displayMessage = 'This email address is not associated with any account. Please call us on 0800 3 232 232';
+                    this.displayMessage = 'This email address is not associated with any account. Please call us on 0800 3 232 2223 Or SignUp';
+                    this.template.querySelector('c-custom-toast').showToast('error', this.displayMessage);
                  //   this.displayFocus();
                   //  this.autoCloseToast();
                 } else if (result === 'UserLockedOut') {
@@ -79,6 +81,7 @@ export default class CustomForgetPasswordPage extends NavigationMixin(LightningE
                     this.defaultView = false;
                     this.toastTheme = 'slds-notify slds-notify_toast slds-theme_error';
                     this.displayMessage = 'Your account has been locked. Please contact customer service for assistance.';
+                    this.template.querySelector('c-custom-toast').showToast('error', this.displayMessage);
                 //    this.displayFocus();
                 //    this.autoCloseToast();
                 }
@@ -89,6 +92,7 @@ export default class CustomForgetPasswordPage extends NavigationMixin(LightningE
                 this.toastError = true;
                 this.toastTheme = 'slds-notify slds-notify_toast slds-theme_error';
                 this.displayMessage = 'An error occurred while trying to reset your password. Please try again later.';
+                this.template.querySelector('c-custom-toast').showToast('error', this.displayMessage);
               //  this.displayFocus();
               //  this.autoCloseToast();
             });

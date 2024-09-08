@@ -171,53 +171,68 @@ public without sharing class CommunityAuthController {
     */
     @AuraEnabled
     public static String resetPasswordLink(String inputemail) {
-        System.debug('inputemail------------------> '+inputemail);
+        System.debug('inputemail------------------> ' + inputemail);
         
         String processMsg = '';
         String userID;
-        String userName;
-        String listSize;
+        List<User> userToResetPassword = new List<User>();
         List<UserLogin> loginHistoryDetailList = new List<UserLogin>();
+    
         try {
-            Boolean Valid = false;
+            Boolean isValidUser = false;
             
             if (!String.isBlank(inputemail)) {
                 inputemail = String.escapeSingleQuotes(inputemail);
+                
+                // Check if the input is a valid email or username
                 if (Site.isValidUsername(inputemail)) {
-                    List<User> userToResetPassword = [Select ID ,Email,Username
-                                                      FROM USER
-                                                      WHERE Email =: inputemail];
-           System.debug('userToResetPassword----------------------------------> '+userToResetPassword);
-                    for(User usr : userToResetPassword) {
-                        userID = usr.ID;
-                        userName = usr.Username;
-                    }
-                    loginHistoryDetailList = [SELECT IsPasswordLocked FROM UserLogin WHERE UserId =: userID LIMIT 1];
-                    if(loginHistoryDetailList.size()>0) {
-                            if(loginHistoryDetailList[0].IsPasswordLocked) {
-                                processMsg = 'UserLockedOut';
-                                return processMsg;
-                            }
-                        Valid = true;
-                    } else {
-                        Valid = true;
-                    }
+                    // Query for the user with the provided email or username
+                    userToResetPassword = [SELECT Id, Email, Username
+                                           FROM User
+                                           WHERE Email = :inputemail OR Username = :inputemail LIMIT 1];
                     
-                    if(Valid == true) {
-                        if(!userToResetPassword.IsEmpty()){
-                            if(Site.forgotPassword(userName)){
-                                processMsg = 'LoginResetSuccess'; 
-                            }
+                    System.debug('userToResetPassword----------------------------------> ' + userToResetPassword);
+                    
+                    if (!userToResetPassword.isEmpty()) {
+                        User user = userToResetPassword[0];
+                        userID = user.Id;
+    
+                        // Check if the user account is locked
+                        loginHistoryDetailList = [SELECT IsPasswordLocked 
+                                                  FROM UserLogin 
+                                                  WHERE UserId = :userID 
+                                                  LIMIT 1];
+                        
+                        if (!loginHistoryDetailList.isEmpty() && loginHistoryDetailList[0].IsPasswordLocked) {
+                            processMsg = 'UserLockedOut';
+                            return processMsg;
                         }
+    
+                        isValidUser = true;
+                    } else {
+                        isValidUser = false;
                     }
                 }
-                if(String.isBlank(processMsg)){
-                    processMsg ='invalidUserName';
-                }                               
+                
+                if (isValidUser) {
+                    // If valid user, use the resetPassword standard method
+                    System.ResetPasswordResult resetResult = System.resetPassword(userID, true);
+                    
+                    if (resetResult != null) {
+                        processMsg = 'LoginResetSuccess';
+                    } else {
+                        processMsg = 'ResetPasswordFailed: ';
+                    }
+                } else {
+                    processMsg = 'invalidUserName';
+                }
             }
+            
             return processMsg;
-        } catch (exception ex) {
+            
+        } catch (Exception ex) {
             throw new AuraHandledException(ex.getMessage());
         }
     }
+    
 }

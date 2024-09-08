@@ -20,15 +20,43 @@
                 </header>
 
                 <!-- Modal/Popup Body -->
-                <div class="slds-modal__content slds-p-around_medium">
-                    <lightning-file-upload
-                        label="Upload Files"
-                        name="fileUploader"
-                        accept=".pdf,.doc,.docx"
-                        record-id={recordId}
-                        multiple>
-                    </lightning-file-upload>
-                </div>
+                               <!-- Modal Content -->
+                               <div class="slds-modal__content modalBody slds-p-vertical_medium slds-p-horizontal_large">
+                                <!-- File Upload Section -->
+                                <div class="slds-box">
+                                    <div class="slds-grid ">
+                                        <div class="slds-col slds-size_12-of-12">
+                                            <div class="slds-align_absolute-center" style="height:2rem">
+                                                <div class="slds-grid slds-grid_vertical slds-wrap">
+                                                    <div class="slds-col slds-size_12-of-12">
+                                                    </div>
+                                                    <div class="slds-col slds-align_absolute-center slds-size_12-of-12">
+                                                        <lightning-input label="" name="file uploader" onchange={handleFilesChange}
+                                                            type="file" multiple></lightning-input>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End of File Upload Section -->
+                                <!-- Dropdown Section -->
+                                <div class="slds-grid slds-wrap">
+                                    <div class="slds-grid slds-wrap slds-size_12-of-12 slds-m-top_x-small">
+                                        <template for:each={filesData} for:item="file">
+                                            <div key={file.fileName} class="slds-col slds-size_6-of-12 slds-p-around_xx-small">
+                                                <lightning-pill class="blue-file-name" label={file.fileName} onclick={removeFile}
+                                                    data-name={file.fileName}></lightning-pill>
+                                            </div>
+                                            /////////////
+                                        </template>
+                                    </div>
+                                    <div class="slds-col slds-size_12-of-12 slds-m-top_xx-small">
+                                     /// credit card details
+                                    </div>
+                                </div>
+                                <!-- End of Dropdown Section -->
+                            </div>
 
                 <!-- Modal/Popup Footer -->
                 <footer class="slds-modal__footer">
