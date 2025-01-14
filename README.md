@@ -342,3 +342,78 @@ export default class AppointmentHistory extends NavigationMixin(
         })
     }
 }
+//////////////////////////////////////////////////////////////////
+         <!-- Display error data here -->
+                <div class="slds-p-around_medium">
+                    <article class="slds-card slds-card_boundary cardborderstyling">
+                        <lightning-spinner if:true={showLoading} class="details-box" variant="brand"
+                            alternative-text="Loading..." size="medium">
+                        </lightning-spinner>
+                        <div class="slds-page-header slds-page-header_related-list cardheadercss">
+                            <div class="slds-page-header__row slds-p-top_small">
+                                <div class="slds-page-header__col-title">
+                                    <div class="slds-media">
+                                        <div class="slds-media__body">
+                                            <div class="demo-only slds-size_3-of-4">
+                                                <div class="slds-media slds-media_small">
+                                                    <div class="slds-media__figure">
+                                                        <span class="slds-avatar slds-avatar_small">
+                                                            <lightning-icon class="custom-icon-background"
+                                                                icon-name="standard:first_non_empty"
+                                                                size="small"></lightning-icon>
+                                                        </span>
+                                                    </div>
+                                                    <div
+                                                        class="slds-media__body slds-p-top_xx-small slds-p-left_x-small">
+                                                        <h1 class="slds-card__header-title">
+                                                            {errorTitleWithCount}
+                                                        </h1>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-grid">
+                            <div class="slds-col slds-size_12-of-12">
+                                <template if:true={isDataPresent}>
+                                    <lightning-datatable data={errorData} hide-checkbox-column columns={columns}
+                                        key-field="Field"></lightning-datatable>
+                                </template>
+                                <template if:false={isDataPresent}>
+                                    <p class="slds-text-align_center">No errors to display.</p>
+                                </template>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+//////////////////////////////////////////////////////////////////////////////////////////
+
+.custom-icon-background {
+    --slds-c-icon-color-background: rgb(232, 2, 30);
+}
+
+.cardheadercss {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: var(--lwc-borderWidthThin) solid rgb(201, 201, 201);
+    height: 4rem;
+}
+
+.cardborderstyling {
+    --slds-c-card-radius-border: 7px;
+    --slds-c-card-color-border: rgb(201, 201, 201);
+    border-width: var(--slds-c-card-sizing-border, var(--sds-c-card-sizing-border, var(--lwc-borderWidthThin, 1px)));
+    border-style: solid;
+
+}
+
+.custom-datatable thead th {
+    font-weight: var(--lwc-fontWeightBold, 700);
+}
+
+.modalheadercss {
+    background-color: rgb(232, 2, 30);
+}
