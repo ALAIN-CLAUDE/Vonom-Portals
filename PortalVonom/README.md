@@ -1,18 +1,76 @@
-# Salesforce DX Project: Next Steps
+<template>
+    <article  class="slds-card slds-card_boundary cardborderstyling">
+       <lightning-spinner if:true={showLoading} class="details-box" variant="brand" alternative-text="Loading..."
+          size="medium">
+       </lightning-spinner>
+       <div class="slds-page-header slds-page-header_related-list cardheadercss">
+          <div class="slds-page-header__row slds-p-top_small">
+             <div class="slds-page-header__col-title">
+                <div class="slds-media">
+                   <div class="slds-media__body">
+                      <div class="demo-only slds-size_3-of-4">
+                         <div class="slds-media slds-media_small">
+                            <div class="slds-media__figure">
+                               <span class="slds-avatar slds-avatar_small">
+                                  <lightning-icon class="custom-icon-background" icon-name="standard:file" size="small"></lightning-icon>
+                               </span>
+                            </div>
+                            <div class="slds-media__body slds-p-top_xx-small slds-p-left_x-small">
+                               <h3 class="slds-card__header-title">
+                                  {documentCardTitleWithCount}
+                               </h3>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+             <div class="slds-page-header__col-actions">
+                <div class="slds-page-header__controls">
+                   <div class="slds-page-header__control">
+                      <ul class="slds-button-group-list">
+                         <!-- add a button here if needed and add more buttons by adding another list -->
+                         <li>
+                            <button class="slds-button slds-button_neutral" title="Upload" onclick={handleUploadModal}>Upload</button> 
+                        </li>
+                      </ul>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+       <div class="slds-grid">
+          <div class="slds-col slds-size_12-of-12">
+             <div if:true={noFiles}
+                class="slds-card__body slds-card__body_inner slds-theme_default slds-var-m-vertical_medium slds-var-p-vertical_medium">
+                <p class="slds-text-color_weak slds-var-p-left_large">There are currently no documents related
+                   to this record
+                </p>
+             </div>
+             <div if:true={loadError} class="slds-card__body slds-var-p-vertical_medium slds-m-vertical_none"
+                style="display: flex">
+                <p class="slds-text-color_error slds-var-m-left_small slds-var-m-right_xx-small">
+                   There was an error loading the documents
+                </p>
+                <p class="slds-text-link_faux color-blue" onclick={generateFileData}>
+                   Try Again?
+                </p>
+             </div>
+             <div if:false={noFiles}>
+                <div class="flex-space-between" if:false={loadError}>
+                   <div class="slds-col sld-scrollable-none" style={datatableHeight} >
+                      <!-- ignore for the warning that the table isn't mobile friendly-->
+                      <!-- sldsValidatorIgnoreNextLine -->
+                      <lightning-datatable key-field="ContentDocumentId" columns={columns} data={fileSetData}
+                         column-widths-mode="auto" hide-checkbox-column default-sort-direction='asc'
+                         sorted-direction={sortDirection} sorted-by={sortedBy} onsort={onHandleSort}
+                         wrap-text-max-lines="2"  class="custom-datatable" >
+                      </lightning-datatable>
+                   </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </article >
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
-
-## How Do You Plan to Deploy Your Changes?
-
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
-
-## Configure Your Salesforce DX Project
-
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
-
-## Read All About It
-
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+ </template>
